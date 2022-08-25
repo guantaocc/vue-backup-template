@@ -110,12 +110,24 @@ export const asyncRoutes = [
   },
 
   {
-    path: 'external-link',
+    path: '/external-link',
     component: Layout,
     children: [
       {
         path: 'https://github.com/PanJiaChen/vue-element-admin',
         meta: { title: '外链', icon: 'link' }
+      }
+    ]
+  },
+
+  {
+    path: '/table',
+    component: Layout,
+    children: [
+      {
+        path: 'demo',
+        component: () => import('@/views/table-demo'),
+        meta: { title: 'table', icon: 'table' }
       }
     ]
   },

@@ -114,6 +114,13 @@ export function getQueryObject(url) {
 }
 
 /**
+ * 获取参数
+ */
+export function getQueryByName(url, name) {
+  return getQueryObject(url)[name]
+}
+
+/**
  * @param {string} input value
  * @returns {number} output value
  */
