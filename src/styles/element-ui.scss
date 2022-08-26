@@ -82,3 +82,9 @@
 .el-range-separator {
   box-sizing: content-box;
 }
+
+// 全局 tooltip最大宽度
+.el-tooltip__popper {
+  max-width: 400px;
+  word-break: break-all;
+}

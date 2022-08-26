@@ -1,15 +1,20 @@
 <template>
   <div class="table-container">
-    <BaseTable :data-source="dataSource" :columns="columns" :sort-arr="['age']" show-index>
+    <BaseTable :api="fetchList" :columns="columns" :sort-arr="['timestamp']" show-index>
       <template #operation>
         <el-button type="text" size="small">新增</el-button>
       </template>
+      <template #tableTitle>
+        <div>this is slot table title</div>
+      </template>
+
     </BaseTable>
   </div>
 </template>
 
 <script>
 import { BaseTable } from '@/components/Table'
+import { fetchList } from '@/api/article'
 export default {
   name: 'TableDemo',
   components: {
@@ -17,43 +22,34 @@ export default {
   },
   data() {
     return {
-      dataSource: [
-        {
-          key: '1',
-          name: '胡彦斌',
-          age: 32,
-          address: '西湖区湖底公园1号'
-        },
-        {
-          key: '2',
-          name: '胡彦祖',
-          age: 42,
-          address: '西湖区湖底公园1号'
-        },
-        {
-          key: '3',
-          name: '胡彦祖',
-          age: 42,
-          address: '西湖区湖底公园1号'
-        }
-      ],
+      fetchList,
       columns: [
         {
-          label: '姓名',
-          prop: 'name',
-          key: 'name',
+          label: '文章标题',
+          prop: 'title',
+          key: 'title',
           width: 180
         },
         {
-          label: '年龄',
-          prop: 'age',
-          key: 'age',
+          label: '作者',
+          prop: 'author',
+          key: 'author',
           width: 180
         },
         {
-          label: '住址',
-          prop: 'address',
-          key: 'address'
+          label: '接收人',
+          prop: 'reviewer',
+          key: 'reviewer'
+        },
+        {
+          label: '内容',
+          prop: 'content',
+          key: 'content'
+        },
+        {
+          label: '时间',
+          prop: 'timestamp',
+          key: 'timestamp'
         },
         {
           label: '操作',
