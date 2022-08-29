@@ -21,14 +21,20 @@ export default {
 
 <style lang="scss" scoped>
 .table-setting {
-  margin-left: 20px;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-   svg {
+  height: 16px;
+  font-size: 16px;
+  ::v-deep {
+    .svg-icon {
+      width: 16px;
+      height: 16px;
       color: #333;
       margin-left: 12px;
       cursor: pointer;
       outline: none;
+      vertical-align: 0;
     }
+  }
 }
 </style>

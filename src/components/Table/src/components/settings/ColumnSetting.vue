@@ -94,7 +94,6 @@ export default {
 
 <style lang="scss" scoped>
 .el-tooltip {
-  height: 24px;
   margin-left: 16px;
   cursor: pointer;
   outline: none;

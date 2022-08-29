@@ -21,8 +21,5 @@ export default {
 </script>
 
 <style lang="scss">
-svg {
-  cursor: pointer;
-  outline: none;
-}
+
 </style>

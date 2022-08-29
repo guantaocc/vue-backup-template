@@ -28,19 +28,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .el-tooltip{
-    height: 24px;
-    font-size: 24px;
-    color: #333;
-    margin-left: 12px;
-    cursor: pointer;
-    outline: none;
-    ::v-deep {
-      .el-dropdown-selfdefine {
-        display: inline-block;
-        height: 24px;
-        line-height: 24px;
-      }
-    }
-  }
+.el-tooltip{
+  margin-left: 12px;
+}
 </style>

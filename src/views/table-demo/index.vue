@@ -27,6 +27,7 @@ export default {
           label: '文章标题',
           value: '',
           key: 'title',
+          col: 12,
           // 渲染组件
           component: 'input',
           props: {
@@ -43,6 +44,7 @@ export default {
           label: '状态',
           value: '',
           key: 'status',
+          col: 12,
           // 渲染组件
           component: 'select',
           props: {
@@ -60,6 +62,7 @@ export default {
         {
           label: '创建时间',
           key: 'createtime',
+          col: 14,
           value: [],
           component: 'date-picker',
           props: {
