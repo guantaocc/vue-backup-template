@@ -1,7 +1,7 @@
 <template>
   <div class="base-table">
     <div v-if="isSearchForm" class="table-filters">
-      <FilterForm v-model="tableFilters" />
+      <FilterForm v-model="tableFilters" :filters="filters" />
     </div>
     <div class="table-header">
       <slot name="header">
@@ -156,7 +156,12 @@ export default {
     })
     this.tableColumns = this.cacheColumns
     // filters
-    this.tableFilters = { ...this.filters }
+    this.tableFilters = this.filters.reduce((init, curr) => {
+      const key = curr.key
+      // 初始化
+      init[key] = curr.value
+      return curr
+    }, {})
   },
   mounted() {
     // 固定表格高度
