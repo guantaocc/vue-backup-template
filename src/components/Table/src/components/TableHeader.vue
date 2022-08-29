@@ -2,7 +2,7 @@
   <div class="table-header-wrapper">
     <div class="table-title">
       <slot name="tableTitle">
-        <div class="title">table title</div>
+        <div class="title">基础表格</div>
       </slot>
     </div>
     <div class="table-action-panel">
@@ -18,8 +18,6 @@ export default {
   name: 'TableHeader',
   components: {
     TableSetting
-  },
-  mounted() {
   }
 }
 </script>

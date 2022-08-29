@@ -1,8 +1,11 @@
 <template>
   <div class="base-table">
+    <div v-if="isSearchForm" class="table-filters">
+      <FilterForm v-model="tableFilters" />
+    </div>
     <div class="table-header">
       <slot name="header">
-        <TableHeader :table-columns="tableColumns" @redo="redo" @table-size-change="handleTableSizeChange" @table-column-change="handleColumnChange">
+        <TableHeader :table-columns="cacheColumns" @redo="redo" @table-size-change="handleTableSizeChange" @table-column-change="handleColumnChange">
           <template #tableTitle>
             <slot name="tableTitle" />
           </template>
@@ -68,11 +71,13 @@
 
 <script>
 import TableHeader from './components/TableHeader'
+import FilterForm from './components/form/FilterForm.vue'
 import { throttle } from 'lodash-es'
 export default {
   name: 'BaseTable',
   components: {
-    TableHeader
+    TableHeader,
+    FilterForm
   },
   props: {
     showIndex: {
@@ -96,8 +101,18 @@ export default {
       type: Function,
       required: true
     },
-    // 排序字段
+    // 表格排序字段
     sortArr: {
+      type: Array,
+      default: () => []
+    },
+    // 是否开启表格条件检索
+    isSearchForm: {
+      type: Boolean,
+      default: false
+    },
+    // 查询表单项
+    filters: {
       type: Array,
       default: () => []
     }
@@ -117,7 +132,10 @@ export default {
       bottomDefaultOffset: 64,
       maxTableHeight: 0,
       size: 'small',
-      tableColumns: []
+      tableColumns: [],
+      cacheColumns: [],
+      // 查询条件的值
+      tableFilters: {}
     }
   },
   computed: {
@@ -128,7 +146,17 @@ export default {
   created() {
     this.throttleTableHeight = throttle(this.adptiveTableHeight, 100)
     window.addEventListener('resize', this.throttleTableHeight)
-    this.tableColumns = this.columns
+    this.cacheColumns = this.columns.map(item => {
+      return {
+        ...item,
+        _key: item.key,
+        // 更新排序的 key
+        key: `${item.key}-${new Date().getTime()}`
+      }
+    })
+    this.tableColumns = this.cacheColumns
+    // filters
+    this.tableFilters = { ...this.filters }
   },
   mounted() {
     // 固定表格高度
@@ -154,13 +182,9 @@ export default {
       this.size = size
     },
     handleColumnChange(values) {
-      const _tableColumns = this.columns
-      this.tableColumns = _tableColumns.filter(item => {
-        if (values.indexOf(item.key) === -1) {
-          return false
-        }
-        return true
-      })
+      this.tableColumns = values
+      // doLayout
+      this.$refs.tableElRef.doLayout()
     },
     // 自适应表格高度布局
     adptiveTableHeight() {
@@ -252,5 +276,8 @@ export default {
 }
 .table-header {
   margin-bottom: 16px;
+}
+.table-filters {
+  margin: 10px 0 24px;
 }
 </style>
