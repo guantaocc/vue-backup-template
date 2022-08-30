@@ -131,6 +131,17 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/components',
+    component: Layout,
+    children: [
+      {
+        path: 'demo',
+        component: () => import('@/views/components-demo'),
+        meta: { title: '组件', icon: 'link' }
+      }
+    ]
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
