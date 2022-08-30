@@ -1,7 +1,7 @@
 <template>
   <div class="base-table">
     <div v-if="isSearchForm" class="table-filters">
-      <FilterForm v-model="tableFilters" :filters="filters" />
+      <FilterForm v-model="tableFilters" :filters="filters" @reset-filters="resetFilters" @search-filters="searchFilters" />
     </div>
     <div class="table-header">
       <slot name="header">
@@ -155,13 +155,7 @@ export default {
       }
     })
     this.tableColumns = this.cacheColumns
-    // filters
-    this.tableFilters = this.filters.reduce((init, curr) => {
-      const key = curr.key
-      // 初始化
-      init[key] = curr.value
-      return curr
-    }, {})
+    this.initFilters()
   },
   mounted() {
     // 固定表格高度
@@ -174,6 +168,15 @@ export default {
     window.removeEventListener('resize', this.throttleTableHeight)
   },
   methods: {
+    initFilters() {
+      // 根据 filters初始化
+      this.tableFilters = this.filters.reduce((init, curr) => {
+        const key = curr.key
+        // 初始化
+        init[key] = curr.value
+        return init
+      }, {})
+    },
     // 获取 slots 内容传递子节点
     getSlot(slots, slot = 'default', data) {
       if (!slots) {
@@ -182,6 +185,13 @@ export default {
       const slotFn = slots[slot]
       if (!slotFn) return null
       return slotFn(data)
+    },
+    resetFilters() {
+      this.initFilters()
+      this.queryData()
+    },
+    searchFilters() {
+      this.queryData()
     },
     handleTableSizeChange(size) {
       this.size = size
@@ -221,6 +231,27 @@ export default {
       this.loading = true
       // query 参数
       const params = { ...this.order, ...this.pagination }
+      if (this.isSearchForm) {
+        this.filters.forEach(item => {
+          const key = item.key
+          const formValue = this.tableFilters[key]
+          if (formValue !== '' && formValue !== undefined) {
+            // 是否需要 search 转换数据 transform
+            if (item.search) {
+              // 转换数据
+              const { transform } = item.search
+              const transformObj = transform(formValue)
+              // 合并 transform数据
+              for (const key in transformObj) {
+                params[key] = transformObj[key]
+              }
+            } else {
+              // 不需要 transform
+              params[key] = formValue
+            }
+          }
+        })
+      }
       this.api(params).then(res => {
         console.log('res', res)
         this.total = res.data.total

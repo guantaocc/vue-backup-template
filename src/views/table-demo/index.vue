@@ -30,15 +30,13 @@ export default {
           col: 12,
           // 渲染组件
           component: 'input',
-          props: {
-            //
-            rules: [
-              {
-                required: true,
-                trigger: 'blur'
-              }
-            ]
-          }
+          rules: [
+            {
+              pattern: /^[\w\W]{0,8}$/,
+              message: '标题不能超过8个字符',
+              trigger: 'blur'
+            }
+          ]
         },
         {
           label: '状态',
