@@ -142,6 +142,17 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/chart',
+    component: Layout,
+    children: [
+      {
+        path: 'chart-demo',
+        component: () => import('@/views/chart-demo'),
+        meta: { title: '图表自定义示例', icon: 'link' }
+      }
+    ]
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
